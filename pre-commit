@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Run gitleaks and check for sensitive information
+gitleaks_result=$(gitleaks detect ./ --verbose)
+
+# If gitleaks finds a leak, prevent the commit
+if [ -n "$gitleaks_result" ]; then
+    echo "gitleaks detected sensitive information:"
+    echo "$gitleaks_result"
+    echo "Commit aborted."
+    exit 1
+fi
+
+# Otherwise, allow the commit to proceed
+exit 0
